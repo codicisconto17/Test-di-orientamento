@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Test di Orientamento Universitario</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1, h2 {
+      text-align: center;
+    }
+    .question {
+      margin-bottom: 20px;
+    }
+    .question p {
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+    .answers label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    button {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 30px;
+      background-color: #0077cc;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    #result {
+      margin-top: 30px;
+      font-size: 18px;
+      text-align: center;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Test di Orientamento Universitario</h1>
+    <form id="quizForm">
+      <div class="question">
+        <p>1. Ti senti più a tuo agio con:</p>
+        <div class="answers">
+          <label><input type="radio" name="q1" value="scientifico" /> Problemi matematici o scientifici</label>
+          <label><input type="radio" name="q1" value="umanistico" /> Analizzare testi o discutere idee</label>
+          <label><input type="radio" name="q1" value="artistico" /> Creare, disegnare, recitare</label>
+        </div>
+      </div>
+      <div class="question">
+        <p>2. Ti piacerebbe lavorare in futuro come:</p>
+        <div class="answers">
+          <label><input type="radio" name="q2" value="tecnico" /> Ingegnere, informatico, analista dati</label>
+          <label><input type="radio" name="q2" value="sociale" /> Psicologo, insegnante, educatore</label>
+          <label><input type="radio" name="q2" value="artistico" /> Designer, attore, musicista</label>
+        </div>
+      </div>
+      <div class="question">
+        <p>3. Quale tra questi ti appassiona di più?</p>
+        <div class="answers">
+          <label><input type="radio" name="q3" value="economico" /> Economia e gestione d’impresa</label>
+          <label><input type="radio" name="q3" value="scientifico" /> Esperimenti e scoperte scientifiche</label>
+          <label><input type="radio" name="q3" value="umanistico" /> Lingue, letteratura, filosofia</label>
+        </div>
+      </div>
+      <button type="button" onclick="calcolaRisultato()">Invia</button>
+    </form>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    function calcolaRisultato() {
+      const risposte = [
+        document.querySelector('input[name="q1"]:checked'),
+        document.querySelector('input[name="q2"]:checked'),
+        document.querySelector('input[name="q3"]:checked')
+      ];
+
+      const conteggio = {};
+      risposte.forEach(r => {
+        if (r) {
+          conteggio[r.value] = (conteggio[r.value] || 0) + 1;
+        }
+      });
+
+      let max = 0;
+      let categoria = "";
+      for (const [chiave, valore] of Object.entries(conteggio)) {
+        if (valore > max) {
+          max = valore;
+          categoria = chiave;
+        }
+      }
+
+      let messaggio = "";
+      switch (categoria) {
+        case "scientifico":
+          messaggio = "Potresti essere portato per percorsi come Ingegneria, Informatica, Fisica o Biotecnologie.";
+          break;
+        case "umanistico":
+          messaggio = "Potresti essere adatto a Lettere, Lingue, Filosofia o Scienze della comunicazione.";
+          break;
+        case "artistico":
+          messaggio = "Percorsi come Design, Arti visive, Spettacolo o Architettura potrebbero fare per te.";
+          break;
+        case "sociale":
+          messaggio = "Potresti orientarti verso Psicologia, Scienze dell’educazione, Sociologia.";
+          break;
+        case "economico":
+          messaggio = "Economia, Management, Finanza o Marketing sembrano interessarti maggiormente.";
+          break;
+        case "tecnico":
+          messaggio = "Potresti essere adatto a corsi come Ingegneria gestionale, informatica, automazione.";
+          break;
+        default:
+          messaggio = "Per favore, rispondi a tutte le domande.";
+      }
+
+      document.getElementById("result").textContent = messaggio;
+    }
+  </script>
+</body>
+</html>
